@@ -1,0 +1,104 @@
+USE world;
+
+SELECT Name FROM country WHERE Continent = 'South America';
+
+SELECT Population FROM country WHERE Name = 'Germany';
+
+SELECT Name FROM city WHERE CountryCode = 'JPN';
+
+SELECT Name
+FROM country 
+WHERE continent = 'Africa'
+ORDER BY country.population DESC LIMIT 3;
+
+SELECT Name, LifeExpectancy 
+FROM country 
+WHERE country.population BETWEEN 1000000 AND 5000000;
+
+SELECT country.Name FROM country 
+JOIN countrylanguage ON country.Code = countrylanguage.CountryCode
+WHERE countrylanguage.Language = 'French' AND countrylanguage.IsOfficial = 'T';
+
+USE world;
+
+SELECT Name FROM country WHERE Continent = 'South America';
+
+SELECT Population FROM country WHERE Name = 'Germany';
+
+SELECT Name FROM city WHERE CountryCode = 'JPN';
+
+SELECT Name
+FROM country 
+WHERE continent = 'Africa'
+ORDER BY country.population DESC LIMIT 3;
+
+SELECT Name, LifeExpectancy 
+FROM country 
+WHERE country.population BETWEEN 1000000 AND 5000000;
+
+SELECT country.Name FROM country 
+JOIN countrylanguage ON country.Code = countrylanguage.CountryCode
+WHERE countrylanguage.Language = 'French' AND countrylanguage.IsOfficial = 'T';
+
+USE tzb5xh;
+
+CREATE TABLE Products (
+    ProductID INT AUTO_INCREMENT PRIMARY KEY,
+    ProductName VARCHAR(100) NOT NULL,
+    Price DECIMAL(10, 2) NOT NULL,
+    StockQuantity INT NOT NULL
+);
+
+CREATE TABLE Customers (
+    CustomerID INT AUTO_INCREMENT PRIMARY KEY,
+    FirstName VARCHAR(50) NOT NULL,
+    LastName VARCHAR(50) NOT NULL,
+    Email VARCHAR(100) UNIQUE NOT NULL,
+    PhoneNumber VARCHAR(15)
+);
+
+CREATE TABLE Orders (
+    OrderID INT AUTO_INCREMENT PRIMARY KEY,
+    CustomerID INT,
+    OrderDate DATETIME DEFAULT CURRENT_TIMESTAMP,
+    TotalAmount DECIMAL(10, 2),
+    FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID)
+);
+
+CREATE TABLE OrderDetails (
+    OrderDetailID INT AUTO_INCREMENT PRIMARY KEY,
+    OrderID INT,
+    ProductID INT,
+    Quantity INT,
+    Price DECIMAL(10, 2),
+    FOREIGN KEY (OrderID) REFERENCES Orders(OrderID),
+    FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
+);
+
+INSERT INTO Products (ProductName, Price, StockQuantity) VALUES
+('Glazed Donut', 1.50, 100),
+('Chocolate Donut', 1.75, 80),
+('Sprinkles Donut', 1.60, 75),
+('Cream Filled Donut', 2.00, 50),
+('Jelly Donut', 1.90, 60);
+
+INSERT INTO Customers (FirstName, Email, PhoneNumber) VALUES
+('jake', 'wells', 'jakewells@yahoo.com', '555-1234'),
+('larry', 'egalls', 'larryegalla@yahoo.com', '555-5678'),
+('tommy', 'tran', 'tommytran@yahoo.com', '555-8765'),
+('aleeza', 'sadiq', 'aleezasadiq@yahoo.com', '555-4321'),
+('abby', 'handel', 'abbyhandeln@yahoo.com', '555-6789');
+
+INSERT INTO Orders (CustomerID, TotalAmount) VALUES
+(1, 5.75),
+(2, 3.20),
+(3, 7.60),
+(4, 6.50),
+(5, 9.10);
+
+INSERT INTO OrderDetails (OrderID, ProductID, Quantity, Price) VALUES
+(1, 1, 2, 1.50),
+(1, 2, 1, 1.75),
+(2, 3, 2, 1.60),
+(3, 4, 1, 2.00),
+(4, 5, 3, 1.90);
